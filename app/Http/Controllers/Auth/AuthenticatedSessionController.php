@@ -28,7 +28,6 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-        $data = Harga::all();
 
         return redirect()->intended(route('dashboard', absolute: false));
     }

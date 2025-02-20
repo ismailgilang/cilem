@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="border-b border-gray-100" style="background-color: #48a39e;">
+<nav x-data="{ open: false }" class="border-b border-gray-100" style="background-color:#c5b651;">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -15,11 +15,11 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('harga.index')" :active="request()->routeIs('harga.index')">
-                        {{ __('Management Harga Emas') }}
+                    <x-nav-link :href="route('nasabah.index')" :active="request()->routeIs('nasabah.index')">
+                        {{ __('Data Nasabah') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('cilem.index')" :active="request()->routeIs('cilem.index')">
-                        {{ __('Simulasi Angsuran Cicil Emas') }}
+                    <x-nav-link :href="route('perhitungan.index')" :active="request()->routeIs('perhitungan.index')">
+                        {{ __('Perhitungan') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -45,12 +45,9 @@
                         </x-dropdown-link> -->
 
                         <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
+                        <form id="logout-form" method="POST" action="{{ route('logout') }}">
                             @csrf
-
-                            <x-dropdown-link :href="route('logout')"
-                                onclick="event.preventDefault();
-                                                this.closest('form').submit();">
+                            <x-dropdown-link href="#" id="logout-btn">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
@@ -76,11 +73,11 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('harga.index')" :active="request()->routeIs('harga.index')">
-                {{ __('Managemen Harga Emas') }}
+            <x-responsive-nav-link :href="route('nasabah.index')" :active="request()->routeIs('nasabah.index')">
+                {{ __('Data Nasabah') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('cilem.index')" :active="request()->routeIs('cilem.index')">
-                {{ __('Simulasi Angsuran Cicil Emas') }}
+            <x-responsive-nav-link :href="route('perhitungan.index')" :active="request()->routeIs('perhitungan.index')">
+                {{ __('Perhitungan') }}
             </x-responsive-nav-link>
         </div>
 
@@ -97,16 +94,35 @@
                 </x-responsive-nav-link> -->
 
                 <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
+                <form id="logout-form" method="POST" action="{{ route('logout') }}">
                     @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                        onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                    <x-responsive-nav-link href="#" id="logout-btn">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("logout-btn").addEventListener("click", function(event) {
+                event.preventDefault(); // Mencegah form terkirim langsung
+
+                Swal.fire({
+                    title: "Apakah Anda yakin ingin logout?",
+                    text: "Anda akan keluar dari sesi ini.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Ya, Logout!",
+                    cancelButtonText: "Batal"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById("logout-form").submit(); // Kirim form jika dikonfirmasi
+                    }
+                });
+            });
+        });
+    </script>
 </nav>

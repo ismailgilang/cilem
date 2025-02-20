@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\CilemController;
-use App\Http\Controllers\HargaController;
+use App\Http\Controllers\NasabahController;
+use App\Http\Controllers\PerhitunganController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -21,10 +21,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('harga', HargaController::class);
-    Route::post('cetak/harga', [HargaController::class, 'cetak'])->name('cetak.harga');
-    Route::resource('cilem', CilemController::class);
-    Route::post('cetak/cilem', [CilemController::class, 'cetak'])->name('cetak.cilem');
+    Route::resource('perhitungan', PerhitunganController::class);
+    Route::resource('nasabah', NasabahController::class);
+    Route::post('cetak/nasabah', [NasabahController::class, 'cetak'])->name('cetak.nasabah');
 });
 
 require __DIR__ . '/auth.php';

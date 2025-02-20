@@ -2,20 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cilem;
-use App\Models\Harga;
+use App\Models\Nasabah;
 use Illuminate\Http\Request;
 use TCPDF;
 
-class CilemController extends Controller
+class NasabahController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $data = Cilem::all();
-        return view('menu.cilem.index', compact('data'));
+        $data = Nasabah::all();
+        return view('menu.nasabah.index', compact('data'));
     }
 
     /**
@@ -23,8 +19,7 @@ class CilemController extends Controller
      */
     public function create()
     {
-        $data = Harga::latest()->first();
-        return view('menu.cilem.create', compact('data'));
+        //
     }
 
     /**
@@ -34,33 +29,39 @@ class CilemController extends Controller
     {
         // Validasi data
         $request->validate([
-            'name' => 'required|string|max:255',
-            'nik' => 'required|string|max:20',
-            'banyak' => 'required|string',
-            'angsuran' => 'required|string',
+            'cif'           => 'required|string|max:255',
+            'name'          => 'required|string|max:255',
+            'portofolio'    => 'nullable|string',
+            'penempatan'    => 'required|string',  // sesuaikan rule jika perlu numeric atau format tertentu
+            'dana'          => 'required|string',
+            'waktu'         => 'required|string',
+            'tanggal'       => 'required|date',
+            'ajuan_nisbah'  => 'required|string',
         ], [
-            'name.required' => 'Nama wajib diisi.',
-            'nik.required' => 'NIK wajib diisi.',
-            'banyak.required' => 'Ceklist Pilih Belum diisi.',
-            'angsuran.required' => 'Ceklist angsuran belum diisi.',
+            'cif.required'           => 'CIF Wajib Diisi',
+            'name.required'          => 'Nama Wajib Diisi',
+            'portofolio.required'    => 'portofolio Wajib Diisi',
+            'penempatan.required'    => 'Nominal Penempatan Wajib Diisi',  // sesuaikan rule jika perlu numeric atau format tertentu
+            'dana.required'          => 'Asal Dana Wajib Diisi',
+            'waktu.required'         => 'Jangka Waktu Wajib Diisi',
+            'tanggal.required'       => 'Tanggal Penempatan Wajib Diisi',
+            'ajuan_nisbah.required'  => 'Nisbah Diajukan Wajib Diisi',
         ]);
 
         // Simpan ke database
-        Cilem::create([
+        Nasabah::create([
+            'cif' => $request->cif,
             'name' => $request->name,
-            'nik' => $request->nik,
-            'banyak' => $request->banyak,
-            'harga_asli' => $request->harga_asli,
-            'uang_muka' => $request->uang_muka,
-            'pembiayaan' => $request->pembiayaan,
-            'adm' => $request->adm,
-            'tot_adm' => $request->tot_adm,
-            'angsuran' => $request->angsuran,
-            'bayar_angsuran' => $request->bayar_angsuran,
+            'portofolio' => $request->portofolio,
+            'penempatan' => $request->penempatan,
+            'dana' => $request->dana,
+            'waktu' => $request->waktu,
+            'tanggal' => $request->tanggal,
+            'ajuan_nisbah' => $request->ajuan_nisbah,
         ]);
 
         // Redirect dengan pesan sukses
-        return redirect()->route('cilem.index')->with('success', 'Data Cicil Emas berhasil disimpan.');
+        return redirect()->route('nasabah.index')->with('success', 'Data Nasabah berhasil disimpan.');
     }
 
     /**
@@ -76,9 +77,8 @@ class CilemController extends Controller
      */
     public function edit(string $id)
     {
-        $item = Cilem::findOrFail($id);
-        $data = Harga::latest()->first();
-        return view('menu.cilem.edit', compact('data', 'item'));
+        $nasabah = Nasabah::findOrFail($id);
+        return view('menu.nasabah.edit', compact('nasabah'));
     }
 
     /**
@@ -87,19 +87,18 @@ class CilemController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'nik' => 'required|string|max:20',
-            'banyak' => 'required|string',
-            'angsuran' => 'required|string',
-        ], [
-            'name.required' => 'Nama wajib diisi.',
-            'nik.required' => 'NIK wajib diisi.',
-            'banyak.required' => 'Ceklist Pilih Belum diisi.',
-            'angsuran.required' => 'Ceklist angsuran belum diisi.',
+            'cif'           => 'required|string|max:255',
+            'name'          => 'required|string|max:255',
+            'portofolio'    => 'required|string',
+            'penempatan'    => 'required|string',
+            'dana'          => 'required|string',
+            'waktu'         => 'required|string',
+            'tanggal'       => 'required|date',
+            'ajuan_nisbah'  => 'required|string',
         ]);
-        $data = Cilem::findOrFail($id);
+        $data = Nasabah::findOrFail($id);
         $data->update($request->all());
-        return redirect()->route('cilem.index')->with('success', 'Data Cicil Emas berhasil diupdate.');
+        return redirect()->route('nasabah.index')->with('success', 'Data Nasabah berhasil diupdate.');
     }
 
     /**
@@ -107,10 +106,10 @@ class CilemController extends Controller
      */
     public function destroy(string $id)
     {
-        $cilem = Cilem::findOrFail($id);
+        $cilem = Nasabah::findOrFail($id);
         $cilem->delete();
 
-        return redirect()->route('cilem.index')->with('success', 'Data Cicil Emas berhasil dihapus.');
+        return redirect()->route('nasabah.index')->with('success', 'Data Nasabah berhasil dihapus.');
     }
 
     public function cetak(Request $request)
@@ -127,7 +126,7 @@ class CilemController extends Controller
         }
 
         // Query data berdasarkan filter
-        $query = Cilem::query();
+        $query = Nasabah::query();
 
         if ($bulan) {
             $query->whereYear('created_at', substr($bulan, 0, 4)) // Pastikan pakai created_at
