@@ -45,12 +45,9 @@
                         </x-dropdown-link> -->
 
                         <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
+                        <form id="logout-form" method="POST" action="{{ route('logout') }}">
                             @csrf
-
-                            <x-dropdown-link :href="route('logout')"
-                                onclick="event.preventDefault();
-                                                this.closest('form').submit();">
+                            <x-dropdown-link href="#" id="logout-btn">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
@@ -97,16 +94,35 @@
                 </x-responsive-nav-link> -->
 
                 <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
+                <form id="logout-form" method="POST" action="{{ route('logout') }}">
                     @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                        onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                    <x-responsive-nav-link href="#" id="logout-btn">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("logout-btn").addEventListener("click", function(event) {
+                event.preventDefault(); // Mencegah form terkirim langsung
+
+                Swal.fire({
+                    title: "Apakah Anda yakin ingin logout?",
+                    text: "Anda akan keluar dari sesi ini.",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Ya, Logout!",
+                    cancelButtonText: "Batal"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById("logout-form").submit(); // Kirim form jika dikonfirmasi
+                    }
+                });
+            });
+        });
+    </script>
 </nav>
