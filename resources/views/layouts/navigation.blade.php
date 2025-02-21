@@ -23,11 +23,9 @@
                         {{ __('Simulasi Angsuran Cicil Emas') }}
                     </x-nav-link>
                     @endif
-                    @if(Auth::user()->role == 'kepala')
                     <x-nav-link :href="route('user.create')" :active="request()->routeIs('user.create')">
                         {{ __('Riwayat Laporan') }}
                     </x-nav-link>
-                    @endif
                 </div>
             </div>
 
@@ -80,11 +78,16 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @if(Auth::user()->role == 'admin')
             <x-responsive-nav-link :href="route('harga.index')" :active="request()->routeIs('harga.index')">
                 {{ __('Managemen Harga Emas') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('cilem.index')" :active="request()->routeIs('cilem.index')">
                 {{ __('Simulasi Angsuran Cicil Emas') }}
+            </x-responsive-nav-link>
+            @endif
+            <x-responsive-nav-link :href="route('user.create')" :active="request()->routeIs('user.create')">
+                {{ __('Riwayat laporan') }}
             </x-responsive-nav-link>
         </div>
 
