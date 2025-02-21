@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
                 'email'      => 'admin@gmail.com',
                 'username' => 'admin',
                 'role' => 'admin',
+                'nik' => 'admin',
                 'password' => Hash::make('1234567'), // Hashing password
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -30,6 +31,7 @@ class UserSeeder extends Seeder
                 'last_name'  => 'kaelani',
                 'email'      => 'kaelani@gmail.com',
                 'username' => 'kaelani',
+                'nik' => '32040533110181',
                 'password'   => Hash::make('1234567'),
                 'role'       => 'nasabah',
                 'created_at' => now(),

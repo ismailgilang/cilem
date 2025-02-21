@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Nasabah;
+use App\Models\User;
 use Illuminate\Http\Request;
 use TCPDF;
 
@@ -11,7 +12,8 @@ class NasabahController extends Controller
     public function index()
     {
         $data = Nasabah::all();
-        return view('menu.nasabah.index', compact('data'));
+        $user = User::where('role', 'nasabah')->get();
+        return view('menu.nasabah.index', compact('data', 'user'));
     }
 
     /**
@@ -29,6 +31,7 @@ class NasabahController extends Controller
     {
         // Validasi data
         $request->validate([
+            'nik'           => 'required|string|max:255',
             'cif'           => 'required|string|max:255',
             'name'          => 'required|string|max:255',
             'portofolio'    => 'nullable|string',
@@ -37,7 +40,10 @@ class NasabahController extends Controller
             'waktu'         => 'required|string',
             'tanggal'       => 'required|date',
             'ajuan_nisbah'  => 'required|string',
+            'nisbah_rate'  => 'required|string',
+            'status'  => 'required|string',
         ], [
+            'cif.required'           => 'NIK Harus Dipilih',
             'cif.required'           => 'CIF Wajib Diisi',
             'name.required'          => 'Nama Wajib Diisi',
             'portofolio.required'    => 'portofolio Wajib Diisi',
@@ -46,10 +52,14 @@ class NasabahController extends Controller
             'waktu.required'         => 'Jangka Waktu Wajib Diisi',
             'tanggal.required'       => 'Tanggal Penempatan Wajib Diisi',
             'ajuan_nisbah.required'  => 'Nisbah Diajukan Wajib Diisi',
+            'nisbah_rate.required'  => 'Nisbah Rate Wajib Diisi',
+            'status.required'  => 'Nisbah Disetujui Wajib Diisi',
+
         ]);
 
         // Simpan ke database
         Nasabah::create([
+            'nik' => $request->nik,
             'cif' => $request->cif,
             'name' => $request->name,
             'portofolio' => $request->portofolio,
@@ -58,6 +68,8 @@ class NasabahController extends Controller
             'waktu' => $request->waktu,
             'tanggal' => $request->tanggal,
             'ajuan_nisbah' => $request->ajuan_nisbah,
+            'nisbah_rate' => $request->nisbah_rate,
+            'status' => $request->status,
         ]);
 
         // Redirect dengan pesan sukses
@@ -78,7 +90,8 @@ class NasabahController extends Controller
     public function edit(string $id)
     {
         $nasabah = Nasabah::findOrFail($id);
-        return view('menu.nasabah.edit', compact('nasabah'));
+        $user = User::where('role', 'nasabah')->get();
+        return view('menu.nasabah.edit', compact('nasabah', 'user'));
     }
 
     /**
@@ -87,6 +100,7 @@ class NasabahController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
+            'nik'           => 'required|string|max:255',
             'cif'           => 'required|string|max:255',
             'name'          => 'required|string|max:255',
             'portofolio'    => 'required|string',
@@ -156,7 +170,7 @@ class NasabahController extends Controller
                         <tr style="background-color:#f2f2f2;">
                             <th style="text-align:center;" >Tanggal</th>
                             <th style="text-align:center;">Nama</th>
-                            <th style="text-align:center;">NIK</th>
+                            <th style="text-align:center;">CIF</th>
                             <th style="text-align:center;">Banyak Emas</th>
                             <th style="text-align:center;">Harga / Gram</th>
                             <th style="text-align:center;">Uang Muka</th>
@@ -173,7 +187,7 @@ class NasabahController extends Controller
             $html .= '<tr>
                         <td style="text-align:center;">' . date('d M Y', strtotime($row->date)) . '</td>
                         <td style="text-align:center;">' . $row->name . '</td>
-                        <td style="text-align:center;">' . $row->nik . '</td>
+                        <td style="text-align:center;">' . $row->cif . '</td>
                         <td style="text-align:center;">' . $row->banyak . '</td>
                         <td style="text-align:center;">' . $row->harga_asli . '</td>
                         <td style="text-align:center;">' . $row->uang_muka . '</td>

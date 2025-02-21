@@ -19,17 +19,28 @@
                             </h2>
 
                             <div class="mt-4">
-                                <label for="cif" class="block text-sm font-medium text-black">CIF</label>
-                                <input type="text" name="cif" id="cif"
-                                    class="w-full mt-1 px-3 py-2 border rounded-md text-black"
-                                    value="{{ old('cif', $nasabah->cif) }}" required>
+                                <label for="nik" class="block text-sm font-medium text-black">User Nik</label>
+                                <select name="nik" id="nik" class="w-full mt-1 px-3 py-2 border rounded-md text-black" required>
+                                    <option value="">-- Pilih User --</option>
+                                    @foreach($user as $u)
+                                    <option value="{{ $u->nik }}" data-name="{{ $u->first_name }} {{ $u->last_name }}" {{ (old('nik', $nasabah->nik) == $u->nik) ? 'selected' : '' }}>
+                                        {{ $u->first_name }} {{ $u->last_name }} ( {{ $u->nik }} )
+                                    </option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="mt-4">
                                 <label for="name" class="block text-sm font-medium text-black">Nama</label>
                                 <input type="text" name="name" id="name"
+                                    class="w-full mt-1 px-3 py-2 border rounded-md text-black" required value="{{ old('name', $nasabah->name) }}">
+                            </div>
+
+                            <div class="mt-4">
+                                <label for="cif" class="block text-sm font-medium text-black">CIF</label>
+                                <input type="text" name="cif" id="cif"
                                     class="w-full mt-1 px-3 py-2 border rounded-md text-black"
-                                    value="{{ old('name', $nasabah->name) }}" required>
+                                    value="{{ old('cif', $nasabah->cif) }}" required>
                             </div>
 
                             <div class="mt-4">
@@ -86,6 +97,34 @@
                                 </div>
                             </div>
 
+                            <div class="mt-4">
+                                <label for="nisbah_rate" class="block text-sm font-medium text-black">
+                                    Nisbah Eq.Rate ( Jika ada koma "," gunakan titik "." contoh 1.1% )
+                                </label>
+                                <div class="relative mt-1">
+                                    <input type="text" name="nisbah_rate" id="nisbah_rate"
+                                        class="w-full pr-10 px-3 py-2 border rounded-md text-black"
+                                        value="{{ old('nisbah_rate', $nasabah->nisbah_rate) }}" required>
+                                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                        <span class="text-gray-500">%</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <label for="status" class="block text-sm font-medium text-black">
+                                    Nisbah Disetujui ( Jika ada koma "," gunakan titik "." contoh 1.1% )
+                                </label>
+                                <div class="relative mt-1">
+                                    <input type="text" name="status" id="status"
+                                        class="w-full pr-10 px-3 py-2 border rounded-md text-black"
+                                        value="{{ old('status', $nasabah->status) }}" required>
+                                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                        <span class="text-gray-500">%</span>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="mt-6 flex justify-end">
                                 <x-primary-button class="ml-3">
                                     Simpan Perubahan
@@ -120,6 +159,24 @@
         });
         document.getElementById('portofolio').addEventListener('input', function(e) {
             this.value = formatRupiah(this.value);
+        });
+    </script>
+    <script>
+        // Set input "name" sesuai data option yang sudah dipilih saat load halaman
+        window.addEventListener('DOMContentLoaded', (event) => {
+            var nikSelect = document.getElementById('nik');
+            var selectedOption = nikSelect.options[nikSelect.selectedIndex];
+            if (selectedOption) {
+                var fullName = selectedOption.getAttribute('data-name') || '';
+                document.getElementById('name').value = fullName;
+            }
+        });
+
+        // Update input "name" saat pilihan berubah
+        document.getElementById('nik').addEventListener('change', function() {
+            var selectedOption = this.options[this.selectedIndex];
+            var fullName = selectedOption.getAttribute('data-name') || '';
+            document.getElementById('name').value = fullName;
         });
     </script>
 </x-app-layout>

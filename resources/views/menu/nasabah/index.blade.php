@@ -65,23 +65,10 @@
                                         <td class="px-4 py-2 text-sm font-medium text-center text-gray-700 whitespace-nowrap">{{ $e->waktu }}</td>
                                         <td class="px-4 py-2 text-sm font-medium text-center text-gray-700 whitespace-nowrap">{{ $e->tanggal }}</td>
                                         <td class="px-4 py-2 text-sm font-medium text-center text-gray-700 whitespace-nowrap">{{ $e->ajuan_nisbah }}%</td>
-                                        <td class="px-4 py-2 text-sm font-medium text-center text-gray-700 whitespace-nowrap">
-                                            @if(!isset($e->nisbah_rate))
-                                            <p class="px-2 bg-red-500 text-white rounded-md">Belum Dibuat</p>
-                                            @else
-                                            {{ $e->nisbah_rate }}%
-                                            @endif
-                                        </td>
-                                        <td class="px-4 py-2 text-sm font-medium text-center text-gray-700 whitespace-nowrap">
-                                            @if(!isset($e->status))
-                                            <p class="px-2 bg-red-500 text-white rounded-md">Belum Dibuat</p>
-                                            @else
-                                            {{ $e->status }}
-                                            @endif
-                                        </td>
+                                        <td class="px-4 py-2 text-sm font-medium text-center text-gray-700 whitespace-nowrap">{{ $e->nisbah_rate }}</td>
+                                        <td class="px-4 py-2 text-sm font-medium text-center text-gray-700 whitespace-nowrap">{{ $e->status }}</td>
                                         <td class="px-4 py-2 text-sm font-medium text-center text-gray-700">
                                             <div class="flex gap-2">
-                                                <a href="#" class="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-md">Cetak</a>
                                                 <a href="{{ route('nasabah.edit', $e->id) }}" class="px-4 py-2 bg-yellow-500 text-black hover:bg-yellow-600 rounded-md">Edit</a>
                                                 <form action="{{route('nasabah.destroy', $e->id) }}" method="post">
                                                     @csrf
@@ -142,16 +129,27 @@
             <h2 class="text-lg font-bold text-black">
                 Input Data Nasabah
             </h2>
-
             <div class="mt-4">
-                <label for="cif" class="block text-sm font-medium text-black">CIF</label>
-                <input type="text" name="cif" id="cif"
-                    class="w-full mt-1 px-3 py-2 border rounded-md text-black" required>
+                <label for="nik" class="block text-sm font-medium text-black">User Nik</label>
+                <select name="nik" id="nik" class="w-full mt-1 px-3 py-2 border rounded-md text-black" required>
+                    <option selected value="">-- Pilih User --</option>
+                    @foreach($user as $u)
+                    <option value="{{ $u->nik }}" data-name="{{ $u->first_name }} {{ $u->last_name }}">
+                        {{ $u->first_name }} {{ $u->last_name }} ( {{ $u->nik }} )
+                    </option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="mt-4">
                 <label for="name" class="block text-sm font-medium text-black">Nama</label>
                 <input type="text" name="name" id="name"
+                    class="w-full mt-1 px-3 py-2 border rounded-md text-black" required readonly>
+            </div>
+
+            <div class="mt-4">
+                <label for="cif" class="block text-sm font-medium text-black">CIF</label>
+                <input type="text" name="cif" id="cif"
                     class="w-full mt-1 px-3 py-2 border rounded-md text-black" required>
             </div>
 
@@ -193,6 +191,32 @@
                 </label>
                 <div class="relative mt-1">
                     <input type="text" name="ajuan_nisbah" id="ajuan_nisbah"
+                        class="w-full pr-10 px-3 py-2 border rounded-md text-black" required>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                        <span class="text-gray-500">%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <label for="nisbah_rate" class="block text-sm font-medium text-black">
+                    Nisbah Eq.Rate ( Jika ada koma "," gunakan titik "." contoh 1.1% )
+                </label>
+                <div class="relative mt-1">
+                    <input type="text" name="nisbah_rate" id="nisbah_rate"
+                        class="w-full pr-10 px-3 py-2 border rounded-md text-black" required>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                        <span class="text-gray-500">%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <label for="status" class="block text-sm font-medium text-black">
+                    Nisbah Disetujui ( Jika ada koma "," gunakan titik "." contoh 1.1% )
+                </label>
+                <div class="relative mt-1">
+                    <input type="text" name="status" id="status"
                         class="w-full pr-10 px-3 py-2 border rounded-md text-black" required>
                     <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                         <span class="text-gray-500">%</span>
@@ -265,6 +289,13 @@
         });
         document.getElementById('portofolio').addEventListener('input', function(e) {
             this.value = formatRupiah(this.value);
+        });
+    </script>
+    <script>
+        document.getElementById('nik').addEventListener('change', function() {
+            var selectedOption = this.options[this.selectedIndex];
+            var fullName = selectedOption.getAttribute('data-name') || '';
+            document.getElementById('name').value = fullName;
         });
     </script>
 </x-app-layout>

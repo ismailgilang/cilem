@@ -16,6 +16,9 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     @if( Auth::user()->role == 'admin')
+                    <x-nav-link :href="route('user.create')" :active="request()->routeIs('user.create')">
+                        {{ __('Data User') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('nasabah.index')" :active="request()->routeIs('nasabah.index')">
                         {{ __('Data Nasabah') }}
                     </x-nav-link>

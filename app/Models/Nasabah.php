@@ -8,6 +8,7 @@ class Nasabah extends Model
 {
     protected $fillable = [
         'name',
+        'nik',
         'cif',
         'portofolio',
         'penempatan',
@@ -17,5 +18,6 @@ class Nasabah extends Model
         'ajuan_nisbah',
         'nisbah_rate',
         'status',
+        'persetujuan',
     ];
 }

@@ -22,8 +22,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('perhitungan', PerhitunganController::class);
+    Route::post('upload/perhitungan', [PerhitunganController::class, 'upload'])->name('upload.perhitungan');
     Route::resource('nasabah', NasabahController::class);
     Route::post('cetak/nasabah', [NasabahController::class, 'cetak'])->name('cetak.nasabah');
+    Route::resource('user', UserController::class);
 });
 
 require __DIR__ . '/auth.php';

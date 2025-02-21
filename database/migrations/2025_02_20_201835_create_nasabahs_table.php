@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('nasabahs', function (Blueprint $table) {
             $table->id();
+            $table->string('nik');
             $table->string('name');
             $table->string('cif')->unique();
             $table->string('portofolio');
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->string('ajuan_nisbah');
             $table->string('nisbah_rate')->nullable();
             $table->string('status')->nullable();
+            $table->string('persetujuan')->nullable();
             $table->timestamps();
         });
     }
