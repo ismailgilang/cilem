@@ -15,11 +15,13 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @if( Auth::user()->role == 'admin')
                     <x-nav-link :href="route('nasabah.index')" :active="request()->routeIs('nasabah.index')">
                         {{ __('Data Nasabah') }}
                     </x-nav-link>
+                    @endif
                     <x-nav-link :href="route('perhitungan.index')" :active="request()->routeIs('perhitungan.index')">
-                        {{ __('Perhitungan') }}
+                        {{ __('Data Akad') }}
                     </x-nav-link>
                 </div>
             </div>

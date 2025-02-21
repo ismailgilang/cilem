@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl leading-tight" style="color:#48a39e;">
-            {{ __('Perhitungan') }}
+            {{ __('Data Akad') }}
         </h2>
     </x-slot>
 
@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="container mx-auto p-6">
-                        <h1 class="text-3xl font-bold mb-6">Mulai Perhitungan</h1>
+                        <h1 class="text-3xl font-bold mb-6">Data Akad</h1>
 
                         <div class="flex justify-between items-center">
                             <div class="flex flex-col md:flex-row gap-4 mb-4">
@@ -27,10 +27,11 @@
                                         <th class="px-4 py-2 text-left text-sm font-semibold text-white whitespace-nowrap text-center">#</th>
                                         <th class="px-4 py-2 text-left text-sm font-semibold text-white whitespace-nowrap text-center">CIF</th>
                                         <th class="px-4 py-2 text-left text-sm font-semibold text-white whitespace-nowrap text-center">Nama</th>
-                                        <th class="px-4 py-2 text-left text-sm font-semibold text-white whitespace-nowrap text-center">Nominal Penempatan</th>
+                                        <th class="px-4 py-2 text-left text-sm font-semibold text-white whitespace-nowrap text-center">Portofolio</th>
                                         <th class="px-4 py-2 text-left text-sm font-semibold text-white whitespace-nowrap text-center">Ajuan Nisbah</th>
                                         <th class="px-4 py-2 text-left text-sm font-semibold text-white whitespace-nowrap text-center">Nisbah Eq.Rate</th>
-                                        <th class="px-4 py-2 text-left text-sm font-semibold text-white whitespace-nowrap text-center">Nisbah Disetujui</th>
+                                        <th class="px-4 py-2 text-left text-sm font-semibold text-white whitespace-nowrap text-center">Status</th>
+                                        <th class="px-4 py-2 text-left text-sm font-semibold text-white whitespace-nowrap text-center">Toolls</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableBody">
@@ -41,35 +42,9 @@
                                         <td class="px-4 py-2 text-sm font-medium text-center text-gray-700 whitespace-nowrap">{{ $e->name }}</td>
                                         <td class="px-4 py-2 text-sm font-medium text-center text-gray-700 whitespace-nowrap">{{ $e->penempatan }}</td>
                                         <td class="px-4 py-2 text-sm font-medium text-center text-gray-700 whitespace-nowrap">{{ $e->ajuan_nisbah }}%</td>
-                                        <td class="px-4 py-2 text-sm font-medium text-center text-gray-700 whitespace-nowrap">
-                                            @if(!isset($e->nisbah_rate))
-                                            <button type="button"
-                                                class="py-1 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-500 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-                                                x-data x-on:click="$dispatch('open-modal', 'add-area-modal{{$e->id}}')">
-                                                Masukan Eq.Rate
-                                            </button>
-                                            @else
-                                            <div class="w-3xs flex justify-between items-center">
-                                                <div>
-                                                    {{ $e->nisbah_rate }}%
-                                                </div>
-                                                <div>
-                                                    <button type="button"
-                                                        class="py-1 px-2 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-500 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-                                                        x-data x-on:click="$dispatch('open-modal', 'add-area-modal{{$e->id}}')">
-                                                        Edit
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            @endif
-                                        </td>
-                                        <td class="px-4 py-2 text-sm font-medium text-center text-gray-700 whitespace-nowrap">
-                                            @if(!isset($e->status))
-                                            <p class="bg-red-500 text-white rounded-md">Eq.Rate Belum Dibuat</p>
-                                            @else
-                                            {{ $e->status }}%
-                                            @endif
-                                        </td>
+                                        <td class="px-4 py-2 text-sm font-medium text-center text-gray-700 whitespace-nowrap">{{ $e->nisbah_rate }}%</td>
+                                        <td class="px-4 py-2 text-sm font-medium text-center text-gray-700 whitespace-nowrap">Belum Disetujui</td>
+                                        <td class="px-4 py-2 text-sm font-medium text-center text-gray-700 whitespace-nowrap"><a href="" class="px-2 py-1 bg-red-500 hover:bg-red-600 rounded-md text-white">PDF</a></td>
                                     </tr>
                                     <x-modal name="add-area-modal{{$e->id}}" focusable>
                                         <div class="ml-4 mr-4 mb-2">
