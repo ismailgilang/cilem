@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::post('cetak/harga', [HargaController::class, 'cetak'])->name('cetak.harga');
     Route::resource('cilem', CilemController::class);
     Route::post('cetak/cilem', [CilemController::class, 'cetak'])->name('cetak.cilem');
+    Route::resource('user', UserController::class);
 });
 
 require __DIR__ . '/auth.php';

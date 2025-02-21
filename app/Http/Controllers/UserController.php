@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cilem;
 use App\Models\Harga;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -42,8 +43,16 @@ class UserController extends Controller
         }
 
         // Ambil harga tertinggi untuk menentukan skala maksimal grafik
-        $maxHarga = max(array_filter(array_merge($buyPrices, $sellPrices))) ?? 0;
+        $merged = array_filter(array_merge($buyPrices, $sellPrices), fn($value) => $value !== null);
+        $maxHarga = !empty($merged) ? max($merged) : 0;
 
         return view('dashboard', compact('bulan', 'buyPrices', 'sellPrices', 'maxHarga'));
+    }
+
+    public function create()
+    {
+        $emas = Harga::all();
+        $data = Cilem::all();
+        return view('menu.laporan.index', compact('data', 'emas'));
     }
 }

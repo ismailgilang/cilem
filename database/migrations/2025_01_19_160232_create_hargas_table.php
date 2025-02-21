@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('hargas', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
+            $table->string('date');
             $table->decimal('buy_price', 10, 2);
             $table->decimal('sell_price', 10, 2);
             $table->string('harga5');

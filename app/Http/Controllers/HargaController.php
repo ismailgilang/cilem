@@ -160,6 +160,6 @@ class HargaController extends Controller
         $pdf->writeHTML($html, true, false, true, false, '');
 
         // Simpan atau tampilkan PDF
-        $pdf->Output('laporan_harga.pdf', 'D'); // 'D' = download otomatis, 'I' = tampil di browser
+        $pdf->Output('laporan_harga.pdf', 'I'); // 'D' = download otomatis, 'I' = tampil di browser
     }
 }
