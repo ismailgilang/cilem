@@ -35,7 +35,9 @@
                                         @else
                                         <th class="px-4 py-2 text-left text-sm font-semibold text-white whitespace-nowrap text-center">persetujuan</th>
                                         @endif
+                                        @if( Auth::user()->role == 'admin' )
                                         <th class="px-4 py-2 text-left text-sm font-semibold text-white whitespace-nowrap text-center">Toolls</th>
+                                        @endif
                                     </tr>
                                 </thead>
                                 <tbody id="tableBody">
@@ -85,7 +87,9 @@
                                             @endif
                                         </td>
                                         @endif
-                                        <td class="px-4 py-2 text-sm font-medium text-center text-gray-700 whitespace-nowrap"><a href="" class="px-2 py-1 bg-red-500 hover:bg-red-600 rounded-md text-white">PDF</a></td>
+                                        @if( Auth::user()->role == 'admin' )
+                                        <td class="px-4 py-2 text-sm font-medium text-center text-gray-700 whitespace-nowrap"><a href="{{ route('cetak.persetujuan', $e->id) }}" class="px-2 py-1 bg-red-500 hover:bg-red-600 rounded-md text-white">PDF</a></td>
+                                        @endif
                                     </tr>
                                     <x-modal name="add-area-modal{{$e->id}}" focusable>
                                         <div class="ml-4 mr-4 mb-2">

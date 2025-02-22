@@ -23,8 +23,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('perhitungan', PerhitunganController::class);
     Route::post('upload/perhitungan', [PerhitunganController::class, 'upload'])->name('upload.perhitungan');
+    Route::get('/perhitungan/pdf/{id}', [perhitunganController::class, 'cetak'])->name('cetak.persetujuan');
     Route::resource('nasabah', NasabahController::class);
-    Route::post('cetak/nasabah', [NasabahController::class, 'cetak'])->name('cetak.nasabah');
     Route::resource('user', UserController::class);
 });
 

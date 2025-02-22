@@ -24,11 +24,6 @@
                             </div>
                             <div class="flex flex-col md:flex-row gap-4 mb-4">
                                 <button type="button"
-                                    class="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-green-500 text-white hover:bg-green-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-                                    x-data x-on:click="$dispatch('open-modal', 'add-area-modal')">
-                                    Cetak
-                                </button>
-                                <button type="button"
                                     class="py-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-500 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
                                     x-data x-on:click="$dispatch('open-modal', 'add-area2-modal')">
                                     Tambah Data
@@ -89,40 +84,6 @@
         </div>
     </div>
     </div>
-    <x-modal name="add-area-modal" focusable>
-        <form action="{{route('cetak.nasabah')}}" method="POST" class="p-6">
-            @csrf
-            <h2 class="text-lg font-bold text-black">
-                Cetak Harga ( Pilih Salah Satu )
-            </h2>
-
-            <div class="mt-4">
-                <label for="bulan" class="block text-sm font-medium text-black">Bulan</label>
-                <input type="month" name="bulan" id="bulan"
-                    class="w-full mt-1 px-3 py-2 border rounded-md text-black"
-                    onchange="disableOtherInput('bulan')">
-            </div>
-
-            <!-- Input Tahun -->
-            <div class="mt-4">
-                <label for="tahun" class="block text-sm font-medium text-black">Tahun</label>
-                <input type="number" name="tahun" id="tahun"
-                    class="w-full mt-1 px-3 py-2 border rounded-md text-black"
-                    min="2000" max="2099" step="1"
-                    placeholder="Masukkan Tahun (YYYY)"
-                    onchange="disableOtherInput('tahun')">
-            </div>
-
-            <div class="mt-6 flex justify-end">
-                <x-secondary-button x-on:click="$dispatch('close')">
-                    Batal
-                </x-secondary-button>
-                <x-primary-button class="ml-3">
-                    Simpan
-                </x-primary-button>
-            </div>
-        </form>
-    </x-modal>
     <x-modal name="add-area2-modal" focusable>
         <form action="{{route('nasabah.store')}}" method="POST" class="p-6">
             @csrf
